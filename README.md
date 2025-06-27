@@ -79,7 +79,6 @@ The `ERD` directory contains a visual diagram of the database schema.
 
 * All UUIDs are hardcoded for reproducibility in testing
 * Timestamps use `CURRENT_TIMESTAMP`
-* You can extend the schema with features like availability calendars, wishlists, admin dashboards, etc.
 
 ---
 
