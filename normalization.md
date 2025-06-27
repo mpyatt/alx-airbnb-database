@@ -2,7 +2,7 @@
 
 ## Objective
 
-Apply normalization principles to ensure the database schema is in **Third Normal Form (3NF)** by eliminating redundancy, ensuring data integrity, and reducing update anomalies.
+Apply normalization principles to ensure the database schema adheres to **Third Normal Form (3NF)** by eliminating redundancy, ensuring data integrity, and reducing update anomalies.
 
 ## Overview of Normal Forms
 
@@ -28,17 +28,15 @@ created_at
 updated_at
 ```
 
-✅ 1NF: All fields are atomic.
-
-✅ 2NF: Only one attribute forms the primary key (id), and all other fields depend on it fully.
-
-✅ 3NF: No transitive dependencies between non-key fields.
+* ✅ **1NF**: All fields are atomic.
+* ✅ **2NF**: Single-column primary key; all attributes depend fully on `id`.
+* ✅ **3NF**: No transitive dependencies.
 
 ### 2. **Property**
 
 ```text
 id (PK)
-host_id (FK → User)
+host_id (FK → users.id)
 name
 description
 location
@@ -47,10 +45,10 @@ created_at
 updated_at
 ```
 
-* ✅ 1NF & 2NF: All atomic; full dependency on id.
-* ⚠️ Potential 3NF Violation: If `location` contains a string (e.g., `"New York, NY"`), it might benefit from normalization into a **Location** table to avoid data duplication.
+* ✅ **1NF & 2NF**: Atomic fields, full dependency on `id`.
+* ⚠️ **Potential 3NF Violation**: `location` as a freeform string (e.g., "New York, NY") could cause redundancy.
 
-* **✅ Fix (optional for 3NF but good practice):**
+* **✅ Suggested Fix (optional for strict 3NF):**
 Create a `locations` table:
 
 ```text
@@ -60,7 +58,13 @@ state
 country
 ```
 
-And link `properties.location_id → locations.id`.
+Update `properties`:
+
+```text
+location_id (FK → locations.id)
+```
+
+---
 
 ### 3. **Booking**
 
@@ -71,12 +75,12 @@ user_id (FK)
 start_date
 end_date
 total_price
-status (ENUM)
+status (ENUM: pending, confirmed, canceled)
 created_at
+updated_at
 ```
 
-* ✅ 1NF & 2NF
-* ✅ 3NF: All non-key attributes depend directly on the primary key only.
+* ✅ Fully satisfies 1NF, 2NF, and 3NF.
 
 ### 4. **Payment**
 
@@ -85,11 +89,16 @@ id (PK)
 booking_id (FK)
 amount
 payment_date
-payment_method (ENUM)
+payment_method (ENUM: credit_card, paypal, stripe)
 ```
 
-* ✅ 1NF & 2NF
-* ✅ 3NF: No transitive dependency. Consider normalizing `payment_method` if the list grows beyond a few options.
+* ✅ Normalized through 3NF.
+* 💡 Optionally normalize `payment_method` into a `payment_methods` table if methods expand:
+
+```text
+id (PK)
+name
+```
 
 ### 5. **Review**
 
@@ -97,37 +106,41 @@ payment_method (ENUM)
 id (PK)
 property_id (FK)
 user_id (FK)
-rating (1-5)
+rating (1–5)
 comment
 created_at
 updated_at
 ```
 
-* ✅ 1NF, 2NF, 3NF: All fields are directly tied to id.
+* ✅ All fields meet 3NF requirements.
 
 ### 6. **Message**
 
 ```text
 id (PK)
-sender_id (FK)
-recipient_id (FK)
+sender_id (FK → users.id)
+recipient_id (FK → users.id)
 message_body
 sent_at
 ```
 
-* ✅ Fully normalized. Direct relationships between users and messages.
+* ✅ Fully normalized—direct relationships between users with no redundant dependencies.
 
-## 🛠️ Summary of Normalization Steps Taken
+## 🛠️ Summary of Normalization Steps
 
-| Step                               | Description                                                                      |
-| ---------------------------------- | -------------------------------------------------------------------------------- |
-| ✔️ Ensured atomic attributes       | Split complex fields into singular values.                                       |
-| ✔️ Eliminated partial dependencies | All non-key fields depend on full PK (mostly UUIDs).                             |
-| ✔️ Removed transitive dependencies | No non-key field depends on another non-key field.                               |
-| ⚠️ Optional: locations Table       | Considered normalization of `location` to reduce redundancy if reused frequently. |
+| Step                               | Description                                                                       |
+| ---------------------------------- | --------------------------------------------------------------------------------- |
+| ✔️ Ensured atomic attributes       | Split all fields into singular values.                                            |
+| ✔️ Eliminated partial dependencies | All attributes depend on the entire primary key.                                  |
+| ✔️ Removed transitive dependencies | No attribute depends on another non-key attribute.                                |
+| ⚠️ Optional: Normalized locations  | Considered extracting repeated `location` data into a separate `locations` table. |
 
-## 📌 Conclusion
+## Conclusion
 
-The AirBnB Clone database schema adheres to **Third Normal Form (3NF)**. All entities have atomic attributes, primary key dependencies, and no transitive non-key dependencies.
+The AirBnB Clone database design complies with **Third Normal Form (3NF)**:
 
-Further normalization (e.g., `location`, `payment_method`) may be applied based on scale and expected data reuse.
+* All attributes are atomic and non-repeating.
+* Every non-key field depends only on the primary key.
+* No transitive dependencies exist between non-key attributes.
+
+🔁 **Further normalization**, like extracting `locations` or `payment_methods`, can be applied based on future scalability, localization, or reporting needs.
