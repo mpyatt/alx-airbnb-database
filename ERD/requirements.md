@@ -14,4 +14,4 @@ This Entity-Relationship (ER) diagram visualizes the foundational database struc
 Together, these tables define the schema needed to support essential features like user registration, property listings, reservation handling, secure transactions, user feedback, and communication.
 
 📌 **Explore the interactive diagram:**
-[https://dbdiagram.io/d/AirBnB-Clone-DB-685e73bff413ba35082e134f](https://dbdiagram.io/d/AirBnB-Clone-DB-685e73bff413ba35082e134f)
+[dbdiagram.io](https://dbdiagram.io/d/AirBnB-Clone-DB-685e73bff413ba35082e134f)
