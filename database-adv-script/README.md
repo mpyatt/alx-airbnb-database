@@ -1,6 +1,6 @@
-# Advanced SQL Joins & Subqueries
+# Advanced SQL Joins, Subqueries, Aggregations & Window Functions
 
-This directory contains SQL scripts demonstrating advanced JOIN and subquery operations for the Airbnb Clone database.
+This directory contains SQL scripts demonstrating advanced JOIN, subquery, aggregation, and window function operations for the Airbnb Clone database.
 
 ## Files
 
@@ -13,6 +13,10 @@ This directory contains SQL scripts demonstrating advanced JOIN and subquery ope
 
   1. **Non-correlated subquery** to find properties with an average rating greater than 4.0.
   2. **Correlated subquery** to find users who have made more than 3 bookings.
+* `aggregations_and_window_functions.sql`: Contains two example queries demonstrating **aggregation** and **window functions**:
+
+  1. Aggregation (`COUNT` & `GROUP BY`) to find total bookings per user.
+  2. Window function (`RANK() OVER`) to rank properties by total bookings.
 
 ## Usage
 
@@ -28,6 +32,7 @@ This directory contains SQL scripts demonstrating advanced JOIN and subquery ope
    ```bash
    psql -d airbnb_clone -f database-adv-script/joins_queries.sql
    psql -d airbnb_clone -f database-adv-script/subqueries.sql
+   psql -d airbnb_clone -f database-adv-script/aggregations_and_window_functions.sql
    ```
 
-3. Review the output to verify that the JOIN operations and subqueries return the expected combined datasets.
+3. Review the output to verify that the JOIN operations, subqueries, aggregations, and window functions return the expected combined datasets.
