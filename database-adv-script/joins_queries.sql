@@ -24,7 +24,8 @@ r.comment
 FROM
 properties p
 LEFT JOIN
-reviews r ON p.id = r.property_id;
+reviews r ON p.id = r.property_id
+ORDER BY p.id;
 
 -- 3. FULL OUTER JOIN: Retrieve all users and all bookings, including unmatched records
 SELECT
